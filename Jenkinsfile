@@ -38,7 +38,7 @@ pipeline {
                         docker stop ecommerce-app || true
                         docker rm ecommerce-app || true
                         docker pull ${DOCKER_HUB_IMAGE}
-                        docker run -d -p 8080:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}
+                        docker run -d -p 8081:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}
                         EOF
                     """
                 }
