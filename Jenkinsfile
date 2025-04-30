@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Dockerize') {
             steps {
-                // Build Docker image using the 'backend' directory as the build context
+                // Dockerfile is inside ./backend, so build context is ./backend
                 sh 'docker build -t ecommerce-app ./backend'
             }
         }
