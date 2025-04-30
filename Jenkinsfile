@@ -34,7 +34,7 @@ pipeline {
             steps {
                 sshagent (credentials: [SSH_CRED_ID]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} << 'EOF'
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} <<EOF
                         docker stop ecommerce-app || true
                         docker rm ecommerce-app || true
                         docker pull ${DOCKER_HUB_IMAGE}
