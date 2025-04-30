@@ -19,6 +19,7 @@ pipeline {
         }
         stage('Dockerize') {
             steps {
+                // Build Docker image using the 'backend' directory as the build context
                 sh 'docker build -t ecommerce-app ./backend'
             }
         }
@@ -48,4 +49,3 @@ pipeline {
         }
     }
 }
-
