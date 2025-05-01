@@ -33,14 +33,14 @@ pipeline {
         stage('Deploy on EC2') {
             steps {
                 sshagent (credentials: [SSH_CRED_ID]) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} <<EOF
-                        docker stop ecommerce-app || true
-                        docker rm ecommerce-app || true
-                        docker pull ${DOCKER_HUB_IMAGE}
-                        docker run -d -p 8081:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}
-                        EOF
-                    '''
+                    sh 'bash -c """\n' +
+                       '        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} <<EOF\n' +
+                       '        docker stop ecommerce-app || true\n' +
+                       '        docker rm ecommerce-app || true\n' +
+                       '        docker pull ${DOCKER_HUB_IMAGE}\n' +
+                       '        docker run -d -p 8081:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}\n' +
+                       '        EOF\n' +
+                       '    """'
                 }
             }
         }
