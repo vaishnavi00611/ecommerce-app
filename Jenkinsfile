@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        EC2_HOST = '13.201.136.213'
+        EC2_HOST = '43.205.114.59'
         SSH_CRED_ID = 'ubuntu-ec2-key'
         DOCKER_HUB_IMAGE = 'vaishu00611/ecommerce-app'
     }
