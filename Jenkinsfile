@@ -11,6 +11,7 @@ pipeline {
                 git 'https://github.com/vaishnavi00611/ecommerce-app'
             }
         }
+
         stage('Build') {
             steps {
                 dir('backend') {
@@ -18,6 +19,7 @@ pipeline {
                 }
             }
         }
+
         stage('Dockerize & Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -30,17 +32,18 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy on EC2') {
             steps {
                 sshagent (credentials: [SSH_CRED_ID]) {
-                    sh 'bash -c """\n' +
-                       '        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} <<EOF\n' +
-                       '        docker stop ecommerce-app || true\n' +
-                       '        docker rm ecommerce-app || true\n' +
-                       '        docker pull ${DOCKER_HUB_IMAGE}\n' +
-                       '        docker run -d -p 8081:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}\n' +
-                       '        EOF\n' +
-                       '    """'
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+                            docker stop ecommerce-app || true &&
+                            docker rm ecommerce-app || true &&
+                            docker pull ${DOCKER_HUB_IMAGE} &&
+                            docker run -d -p 8081:8080 --name ecommerce-app ${DOCKER_HUB_IMAGE}
+                        '
+                    """
                 }
             }
         }
